@@ -11,7 +11,7 @@ public class Course {
 		catch (Exception ignored) {} 
 	}
 
-	//add comment
+	//add new comment
 	public static Course create(String name, int credits) throws Exception {
 		Connection conn = null;
 		try {
