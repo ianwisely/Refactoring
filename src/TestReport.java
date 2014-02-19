@@ -9,7 +9,7 @@ public class TestReport extends TestCase {
 	}
 	
 	public void testEmptyReport() throws Exception {
-		Schedule.deleteAll();
+		SchedulePersistence.deleteAll();	//changed Schedule to SchdulePersistance
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
 		report.write(buffer);
@@ -17,20 +17,20 @@ public class TestReport extends TestCase {
 	}
 	
 	public void testReport() throws Exception {
-		Schedule.deleteAll();
-		Course cs101 = Course.create("CS101", 3);
-		cs101.update();
-		Offering off1 = Offering.create(cs101, "M10");
-		off1.update();
-		Offering off2 = Offering.create(cs101, "T9");
-		off2.update();
-		Schedule s = Schedule.create("Bob");
-		s.add(off1);
-		s.add(off2);
-		s.update();
-		Schedule s2 = Schedule.create("Alice");
-		s2.add(off1);
-		s2.update();
+		SchedulePersistence.deleteAll();	//changed Schedule to SchdulePersistance
+		Course cs101 = CoursePersistence.create("CS101", 3);	//changed Course to CoursePersistance
+		CoursePersistence.update(cs101);
+		Offering off1 = OfferingPersistence.create(cs101, "M10");	//changed Offering to OfferingPersistance
+		OfferingPersistence.update(off1);
+		Offering off2 = OfferingPersistence.create(cs101, "T9");	//changed Schedule to SchdulePersistance
+		OfferingPersistence.update(off2);
+		Schedule s = SchedulePersistence.create("Bob");	//changed Schedule to SchdulePersistance
+		s.schedules.add(off1);
+		s.schedules.add(off2);
+		SchedulePersistence.update(s);
+		Schedule s2 = SchedulePersistence.create("Alice");	//changed Schedule to SchdulePersistance
+		s2.schedules.add(off1);
+		SchedulePersistence.update(s2);
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
 		report.write(buffer);

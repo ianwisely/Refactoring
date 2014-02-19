@@ -94,41 +94,41 @@ public class TestSchedule extends TestCase {
 	}
 
 	public void testCourseCreate() throws Exception {
-		Course c = Course.create("CS202", 1);
-		Course c2 = Course.find("CS202");
+		Course c = CoursePersistence.create("CS202", 1);
+		Course c2 = CoursePersistence.find("CS202");
 		assertEquals("CS202", c2.getName());
-		Course c3 = Course.find("Nonexistent");
+		Course c3 = CoursePersistence.find("Nonexistent");
 		assertNull(c3);
 	}
 
 	public void testOfferingCreate() throws Exception {
-		Course c = Course.create("CS202", 2);
-		Offering offering = Offering.create(c, "M10");
+		Course c = CoursePersistence.create("CS202", 2);
+		Offering offering = OfferingPersistence.create(c, "M10");
 		assertNotNull(offering);
 	}
 
 	public void testPersistentSchedule() throws Exception {
-		Schedule s = Schedule.create("Bob");
+		Schedule s = SchedulePersistence.create("Bob");
 		assertNotNull(s);
 	}
 
 	public void testScheduleUpdate() throws Exception {
-		Course cs101 = Course.create("CS101", 3);
-		cs101.update();
-		Offering off1 = Offering.create(cs101, "M10");
-		off1.update();
-		Offering off2 = Offering.create(cs101, "T9");
-		off2.update();
-		Schedule s = Schedule.create("Bob");
+		Course cs101 = CoursePersistence.create("CS101", 3);
+		CoursePersistence.update(cs101);
+		Offering off1 = OfferingPersistence.create(cs101, "M10");
+		OfferingPersistence.update(off1);
+		Offering off2 = OfferingPersistence.create(cs101, "T9");
+		OfferingPersistence.update(off2);
+		Schedule s = SchedulePersistence.create("Bob");
 		s.add(off1);
 		s.add(off2);
-		s.update();
-		Schedule s2 = Schedule.create("Alice");
+		SchedulePersistence.update(s);
+		Schedule s2 = SchedulePersistence.create("Alice");
 		s2.add(off1);
-		s2.update();
-		Schedule s3 = Schedule.find("Bob");
-		assertEquals(2, s3.schedule.size());
-		Schedule s4 = Schedule.find("Alice");
-		assertEquals(1, s4.schedule.size());
+		SchedulePersistence.update(s2);
+		Schedule s3 = SchedulePersistence.find("Bob");
+		assertEquals(2, s3.schedules.size());
+		Schedule s4 = SchedulePersistence.find("Alice");
+		assertEquals(1, s4.schedules.size());
 	}
 }
