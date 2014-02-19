@@ -7,12 +7,10 @@ public class Report {
 
 	Hashtable<Integer, ArrayList<String>> offeringToName = new Hashtable<Integer, ArrayList<String>>();
 
-	public void populateMap() throws Exception {
-		Collection<Schedule> schedules = SchedulePersistence.all();
-		for (Iterator<Schedule> eachSchedule = schedules.iterator(); eachSchedule.hasNext();) {
-			Schedule schedule = (Schedule) eachSchedule.next();
-			for (Iterator<Offering> each = schedule.schedules.iterator(); each.hasNext(); ) {
-				Offering offering = (Offering) each.next();
+	public void findStudentsAndTheirOfferings() throws Exception {
+		List<Schedule> schedules = SchedulePersistence.all();
+		for (Schedule schedule : schedules) {
+			for (Offering offering : schedule.offerings) {
 				populateMapFor(schedule, offering);
 			}
 		}
@@ -36,7 +34,7 @@ public class Report {
 	}
 
 	public void write(StringBuffer buffer) throws Exception {
-		populateMap();
+		findStudentsAndTheirOfferings();
 		Enumeration<Integer> enumeration = (Enumeration<Integer>)offeringToName.keys();
 		while (enumeration.hasMoreElements()) {
 			Integer offeringId = (Integer)enumeration.nextElement();

@@ -63,7 +63,7 @@ public class SchedulePersistence {	//create this class to separate model classes
 			Schedule schedule = new Schedule(name);
 			while (result.next()) {
 				Offering offering = OfferingPersistence.find(result.getInt("OfferingId"));	//changed Offering to OfferingPersistance and removed variable offeringId
-				schedule.schedules.add(offering);
+				schedule.offerings.add(offering);
 			}
 			return schedule;
 		} 
@@ -78,7 +78,7 @@ public class SchedulePersistence {	//create this class to separate model classes
 		}
 	}
 
-	public static Collection<Schedule> all() throws Exception {
+	public static List<Schedule> all() throws Exception {
 		ArrayList<Schedule> result = new ArrayList<Schedule>();
 		Connection conn = null;
 		try {
@@ -103,8 +103,8 @@ public class SchedulePersistence {	//create this class to separate model classes
 			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + schedule.getName() + "';");
-			for (int i = 0; i < schedule.schedules.size(); i++) {
-				Offering offering = (Offering) schedule.schedules.get(i);
+			for (int i = 0; i < schedule.offerings.size(); i++) {
+				Offering offering = (Offering) schedule.offerings.get(i);
 				statement.executeUpdate("INSERT INTO schedule VALUES('" + schedule.getName() + "','" + offering.getId() + "');");
 			}
 		} 

@@ -5,12 +5,12 @@ import java.sql.Statement;
 
 
 public class OfferingPersistence {	//create this class to separate model classes from persistence classes
-	
+
 	static String url = "jdbc:odbc:Registration";	//changed reggie to registration
 	static { 
 		try { 
 			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
-			}
+		}
 		catch (Exception ignored) {} 
 	}
 
@@ -28,7 +28,7 @@ public class OfferingPersistence {	//create this class to separate model classes
 		finally {
 			try { 
 				conn.close(); 
-				} 
+			} 
 			catch (Exception ignored) {}
 		}
 	}
@@ -53,7 +53,7 @@ public class OfferingPersistence {	//create this class to separate model classes
 			return null;
 		}
 	}
-	
+
 	public static void update(Offering offering) throws Exception {	//changed to static and added Offering parameter
 		Connection conn = null;
 		try {

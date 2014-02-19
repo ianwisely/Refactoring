@@ -25,11 +25,11 @@ public class TestReport extends TestCase {
 		Offering off2 = OfferingPersistence.create(cs101, "T9");	//changed Schedule to SchdulePersistance
 		OfferingPersistence.update(off2);
 		Schedule s = SchedulePersistence.create("Bob");	//changed Schedule to SchdulePersistance
-		s.schedules.add(off1);
-		s.schedules.add(off2);
+		s.offerings.add(off1);
+		s.offerings.add(off2);
 		SchedulePersistence.update(s);
 		Schedule s2 = SchedulePersistence.create("Alice");	//changed Schedule to SchdulePersistance
-		s2.schedules.add(off1);
+		s2.offerings.add(off1);
 		SchedulePersistence.update(s2);
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
