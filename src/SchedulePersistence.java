@@ -1,53 +1,41 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.StringTokenizer;
 
 
 public class SchedulePersistence extends Persistence {	//create this class to separate model classes from persistence classes
 
 	public static void deleteAll() throws Exception {
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			statement.executeUpdate("DELETE * FROM schedule;");
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}
 	}
 	
 	public static Schedule create(String name) throws Exception {
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + name + "';");
 			return new Schedule(name);
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}
 	}
 	
 	public static Schedule find(String name) {
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE Name= '" + name + "';");
 			Schedule schedule = new Schedule(name);
 			while (result.next()) {
@@ -61,7 +49,7 @@ public class SchedulePersistence extends Persistence {	//create this class to se
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}
@@ -69,17 +57,15 @@ public class SchedulePersistence extends Persistence {	//create this class to se
 
 	public static List<Schedule> all() throws Exception {
 		ArrayList<Schedule> result = new ArrayList<Schedule>();
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			ResultSet results = statement.executeQuery("SELECT DISTINCT Name FROM schedule;");
 			while (results.next())
 			result.add(SchedulePersistence.find(results.getString("Name")));	//changed Schedule to SchedulePersistance
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}
@@ -87,19 +73,17 @@ public class SchedulePersistence extends Persistence {	//create this class to se
 	}
 
 	public static void update(Schedule schedule) throws Exception {	//changed to static method and added Schedule parameter
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + schedule.getName() + "';");
 			for (int i = 0; i < schedule.offerings.size(); i++) {
-				Offering offering = (Offering) schedule.offerings.get(i);
+				Offering offering = schedule.offerings.get(i);
 				statement.executeUpdate("INSERT INTO schedule VALUES('" + schedule.getName() + "','" + offering.getId() + "');");
 			}
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}

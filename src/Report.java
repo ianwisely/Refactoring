@@ -1,11 +1,14 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
 
 public class Report {
 	
 	public Report() {
 	}
 
-	private Hashtable<Integer, ArrayList<String>> offerings = new Hashtable<Integer, ArrayList<String>>();
+	private Hashtable<Integer, ArrayList<String>> offerings = new Hashtable<Integer, ArrayList<String>>();	//renamed to offerings
 
 	public void findStudentsAndTheirOfferings() throws Exception {
 		List<Schedule> schedules = SchedulePersistence.all();

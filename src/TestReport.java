@@ -1,6 +1,4 @@
 import junit.framework.TestCase;
-import java.util.List;
-import java.util.Collection;
 
 public class TestReport extends TestCase {
 

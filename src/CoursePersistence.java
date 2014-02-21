@@ -1,5 +1,3 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -7,29 +5,26 @@ import java.sql.Statement;
 public class CoursePersistence extends Persistence {	//create this class to separate model classes from persistence classes
 
 	public static Course create(String name, int credits) throws Exception {
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			statement.executeUpdate("DELETE FROM course WHERE name = '" + name + "';");
 			statement.executeUpdate("INSERT INTO course VALUES ('" + name + "', '" + credits + "');");
 			return new Course(name, credits);
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}
 	}
 
 	public static Course find(String name) {
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM course WHERE Name = '" + name + "';");
-			if (!result.next()) return null;
+			if (!result.next())
+				return null;
 			int credits = result.getInt("Credits");
 			return new Course(name, credits);
 		} 
@@ -38,23 +33,21 @@ public class CoursePersistence extends Persistence {	//create this class to sepa
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}
 	}
 
 	public static void update(Course course) throws Exception {
-		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
-			Statement statement = conn.createStatement();
+			Statement statement = openConnectionAndCreateStatement();
 			statement.executeUpdate("DELETE FROM COURSE WHERE name = '" + course.getName() + "';");
 			statement.executeUpdate("INSERT INTO course VALUES('" + course.getName() + "','" + course.getCredits() + "');");
 		} 
 		finally {
 			try { 
-				conn.close(); 
+				connection.close(); 
 			} 
 			catch (Exception ignored) {}
 		}

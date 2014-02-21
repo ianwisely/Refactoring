@@ -1,4 +1,3 @@
-import java.sql.*;
 
 public class Offering {
 	private int id;

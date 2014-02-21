@@ -1,6 +1,7 @@
-import junit.framework.TestCase;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
+
+import junit.framework.TestCase;
 
 public class TestSchedule extends TestCase {
 	
@@ -94,7 +95,7 @@ public class TestSchedule extends TestCase {
 	}
 
 	public void testCourseCreate() throws Exception {
-		Course c = CoursePersistence.create("CS202", 1);
+		CoursePersistence.create("CS202", 1);
 		Course c2 = CoursePersistence.find("CS202");
 		assertEquals("CS202", c2.getName());
 		Course c3 = CoursePersistence.find("Nonexistent");

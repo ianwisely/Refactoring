@@ -1,4 +1,3 @@
-import java.sql.*;
 
 public class Course {
 	private String name;
