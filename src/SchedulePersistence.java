@@ -10,23 +10,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 
-public class SchedulePersistence {	//create this class to separate model classes from persistence classes
-	
-	
-	
-	static String url = "jdbc:odbc:Registration";	//changed reggie to registration
-	
-	static { 
-		try { 
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
-		}
-		catch (Exception ignored) {} 
-	}
+public class SchedulePersistence extends Persistence {	//create this class to separate model classes from persistence classes
 
 	public static void deleteAll() throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("DELETE * FROM schedule;");
 		} 
@@ -41,7 +30,7 @@ public class SchedulePersistence {	//create this class to separate model classes
 	public static Schedule create(String name) throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + name + "';");
 			return new Schedule(name);
@@ -57,7 +46,7 @@ public class SchedulePersistence {	//create this class to separate model classes
 	public static Schedule find(String name) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE Name= '" + name + "';");
 			Schedule schedule = new Schedule(name);
@@ -82,7 +71,7 @@ public class SchedulePersistence {	//create this class to separate model classes
 		ArrayList<Schedule> result = new ArrayList<Schedule>();
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			ResultSet results = statement.executeQuery("SELECT DISTINCT Name FROM schedule;");
 			while (results.next())
@@ -100,7 +89,7 @@ public class SchedulePersistence {	//create this class to separate model classes
 	public static void update(Schedule schedule) throws Exception {	//changed to static method and added Schedule parameter
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + schedule.getName() + "';");
 			for (int i = 0; i < schedule.offerings.size(); i++) {

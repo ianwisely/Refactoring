@@ -12,7 +12,7 @@ public class TestReport extends TestCase {
 		SchedulePersistence.deleteAll();	//changed Schedule to SchdulePersistance
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
-		report.write(buffer);
+		report.generateReport(buffer);
 		assertEquals("Number of scheduled offerings: 0\n", buffer.toString());
 	}
 	
@@ -33,7 +33,7 @@ public class TestReport extends TestCase {
 		SchedulePersistence.update(s2);
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
-		report.write(buffer);
+		report.generateReport(buffer);
 		String result = buffer.toString();
 		String valid1 = "CS101 M10\n\tAlice\n\tBob\n" + "CS101 T9\n\tBob\n" + "Number of scheduled offerings: 2\n";
 		String valid2 = "CS101 T9\n\tBob\n" + "CS101 M10\n\tAlice\n\tBob\n" + "Number of scheduled offerings: 2\n";

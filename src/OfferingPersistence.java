@@ -4,20 +4,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 
-public class OfferingPersistence {	//create this class to separate model classes from persistence classes
-
-	static String url = "jdbc:odbc:Registration";	//changed reggie to registration
-	static { 
-		try { 
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
-		}
-		catch (Exception ignored) {} 
-	}
+public class OfferingPersistence extends Persistence {	//create this class to separate model classes from persistence classes
 
 	public static Offering create(Course course, String daysTimesCsv) throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			ResultSet result = statement.executeQuery("SELECT MAX(ID) FROM offering;");
 			result.next();
@@ -36,7 +28,7 @@ public class OfferingPersistence {	//create this class to separate model classes
 	public static Offering find(int id) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM offering WHERE ID =" + id + ";");
 			if (result.next() == false)
@@ -57,7 +49,7 @@ public class OfferingPersistence {	//create this class to separate model classes
 	public static void update(Offering offering) throws Exception {	//changed to static and added Offering parameter
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url);	//take out unnecessary parameters
+			conn = DriverManager.getConnection(Persistence.url);	//take out unnecessary parameters
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("DELETE FROM Offering WHERE ID=" + offering.getId() + ";");
 			statement.executeUpdate("INSERT INTO Offering VALUES('" + offering.getId() + "','" + offering.getCourse().getName() + "','" + offering.getDaysTimes() + "');");
