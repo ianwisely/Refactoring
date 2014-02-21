@@ -55,21 +55,21 @@ public class SchedulePersistence extends Persistence {	//create this class to se
 		}
 	}
 
-	public static List<Schedule> all() throws Exception {
-		ArrayList<Schedule> result = new ArrayList<Schedule>();
+	public static List<Schedule> getAllSchedules() throws Exception {
+		ArrayList<Schedule> schedules = new ArrayList<Schedule>();
 		try {
 			Statement statement = openConnectionAndCreateStatement();
 			ResultSet results = statement.executeQuery("SELECT DISTINCT Name FROM schedule;");
 			while (results.next())
-			result.add(SchedulePersistence.find(results.getString("Name")));	//changed Schedule to SchedulePersistance
+			schedules.add(SchedulePersistence.find(results.getString("Name")));	//changed Schedule to SchedulePersistance
 		} 
 		finally {
 			try { 
-				connection.close(); 
+				connection.close();
 			} 
 			catch (Exception ignored) {}
 		}
-		return result;
+		return schedules;
 	}
 
 	public static void update(Schedule schedule) throws Exception {	//changed to static method and added Schedule parameter
@@ -88,7 +88,4 @@ public class SchedulePersistence extends Persistence {	//create this class to se
 			catch (Exception ignored) {}
 		}
 	}
-
-	
-
 }

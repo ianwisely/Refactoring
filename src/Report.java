@@ -11,7 +11,7 @@ public class Report {
 	private Hashtable<Integer, ArrayList<String>> offerings = new Hashtable<Integer, ArrayList<String>>();	//renamed to offerings
 
 	public void findStudentsAndTheirOfferings() throws Exception {
-		List<Schedule> schedules = SchedulePersistence.all();
+		List<Schedule> schedules = SchedulePersistence.getAllSchedules();
 		for (Schedule schedule : schedules) {
 			for (Offering offering : schedule.offerings) {
 				populateStudentsAndTheirOfferingsList(schedule, offering);

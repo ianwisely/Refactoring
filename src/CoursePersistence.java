@@ -25,8 +25,7 @@ public class CoursePersistence extends Persistence {	//create this class to sepa
 			ResultSet result = statement.executeQuery("SELECT * FROM course WHERE Name = '" + name + "';");
 			if (!result.next())
 				return null;
-			int credits = result.getInt("Credits");
-			return new Course(name, credits);
+			return new Course(name, result.getInt("Credits"));
 		} 
 		catch (Exception ex) {
 			return null;
